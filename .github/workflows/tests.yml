@@ -20,13 +20,13 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: none
+          coverage: xdebug
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
 
       - name: Run Pest Tests
-        run: ./vendor/bin/pest --max-runtime=300 --colors --no-coverage
+        run: ./vendor/bin/pest --colors --no-coverage
 
   infection:
     name: Run Mutation Testing (Infection) on PHP 8.2, 8.3, and 8.4
@@ -42,10 +42,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: none
+          extensions: xdebug
+          coverage: xdebug
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
 
       - name: Run Infection (Mutation Testing)
-        run: ./vendor/bin/infection
+        run: ./vendor/bin/infection --logger-github=true
