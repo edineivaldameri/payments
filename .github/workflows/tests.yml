@@ -49,4 +49,4 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Run Infection (Mutation Testing)
-        run: ./vendor/bin/infection
+        run: ./vendor/bin/infection --logger-github=true
