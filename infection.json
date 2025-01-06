@@ -1,0 +1,26 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src/Enum",
+            "src/Helper",
+            "src/Interface",
+            "src/Shipping",
+            "src/ValueObject"
+        ]
+    },
+    "timeout": 10,
+    "logs": {
+        "text": "tests/reports/infection/infection.log",
+        "html": "tests/reports/infection/infection.html",
+        "summary": "tests/reports/infection/summary.log",
+        "json": "tests/reports/infection/infection-log.json",
+        "perMutator": "tests/reports/infection/per-mutator.md"
+    },
+    "phpUnit": {
+        "customPath": "vendor/bin/phpunit"
+    },
+    "mutators": {
+        "@default": true
+    }
+}

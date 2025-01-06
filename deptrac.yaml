@@ -1,0 +1,12 @@
+parameters:
+  paths:
+    - ./src
+  layers:
+    - name: Providers
+      collectors:
+        - type: class
+          value: ^iEducar\\Framework\\Providers.*
+  ruleset:
+    Providers:
+      - Contracts
+      - Natives
