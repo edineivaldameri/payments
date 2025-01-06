@@ -26,7 +26,7 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Run Pest Tests
-        run: ./vendor/bin/pest --max-runtime=300 --colors --no-coverage
+        run: ./vendor/bin/pest --colors --no-coverage
 
   infection:
     name: Run Mutation Testing (Infection) on PHP 8.2, 8.3, and 8.4
