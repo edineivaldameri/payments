@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\ValueObject;
+namespace EdineiValdameri\Payments\ValueObject;
 
-use EdineiValdameri\Pagamentos\Interface\Generate;
+use EdineiValdameri\Payments\Interface\Generate;
 use Exception;
 
 class AbsctractPart implements Generate

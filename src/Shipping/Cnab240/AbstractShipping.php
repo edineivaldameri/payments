@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Shipping\Cnab240;
+namespace EdineiValdameri\Payments\Shipping\Cnab240;
 
-use EdineiValdameri\Pagamentos\Interface\Payment;
-use EdineiValdameri\Pagamentos\Shipping\AbstractShipping as AbstractRemessaAlias;
+use EdineiValdameri\Payments\Interface\Payment;
+use EdineiValdameri\Payments\Shipping\AbstractShipping as AbstractRemessaAlias;
 
 abstract class AbstractShipping extends AbstractRemessaAlias
 {

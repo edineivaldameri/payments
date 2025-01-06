@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Shipping;
+namespace EdineiValdameri\Payments\Shipping;
 
 use DateTimeInterface;
-use EdineiValdameri\Pagamentos\Enum\Bank;
-use EdineiValdameri\Pagamentos\Interface\Generate;
-use EdineiValdameri\Pagamentos\Interface\Payer;
-use EdineiValdameri\Pagamentos\Interface\Payment;
+use EdineiValdameri\Payments\Enum\Bank;
+use EdineiValdameri\Payments\Interface\Generate;
+use EdineiValdameri\Payments\Interface\Payer;
+use EdineiValdameri\Payments\Interface\Payment;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 

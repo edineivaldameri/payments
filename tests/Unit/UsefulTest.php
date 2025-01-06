@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Tests\Unit;
+namespace EdineiValdameri\Payments\Tests\Unit;
 
-use EdineiValdameri\Pagamentos\Enum\Bank;
-use EdineiValdameri\Pagamentos\Helper\Useful;
-use EdineiValdameri\Pagamentos\Tests\TestCase;
-use EdineiValdameri\Pagamentos\ValueObject\Field;
-use EdineiValdameri\Pagamentos\ValueObject\Header;
+use EdineiValdameri\Payments\Enum\Bank;
+use EdineiValdameri\Payments\Helper\Useful;
+use EdineiValdameri\Payments\Tests\TestCase;
+use EdineiValdameri\Payments\ValueObject\Field;
+use EdineiValdameri\Payments\ValueObject\Header;
 use Exception;
 
 class UsefulTest extends TestCase

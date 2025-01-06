@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Interface;
+namespace EdineiValdameri\Payments\Interface;
 
-use EdineiValdameri\Pagamentos\Enum\Bank;
+use EdineiValdameri\Payments\Enum\Bank;
 
 interface BankAccount
 {

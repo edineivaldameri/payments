@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Shipping\Cnab240\Bank;
+namespace EdineiValdameri\Payments\Shipping\Cnab240\Bank;
 
-use EdineiValdameri\Pagamentos\Enum\Bank;
-use EdineiValdameri\Pagamentos\Enum\Finality;
-use EdineiValdameri\Pagamentos\Enum\Status;
-use EdineiValdameri\Pagamentos\Helper\CalculationDV;
-use EdineiValdameri\Pagamentos\Helper\Useful;
-use EdineiValdameri\Pagamentos\Interface\Payer;
-use EdineiValdameri\Pagamentos\Interface\Payment;
-use EdineiValdameri\Pagamentos\Shipping\Cnab240\AbstractShipping;
-use EdineiValdameri\Pagamentos\ValueObject\Field;
-use EdineiValdameri\Pagamentos\ValueObject\Header;
-use EdineiValdameri\Pagamentos\ValueObject\HeaderBatch;
-use EdineiValdameri\Pagamentos\ValueObject\Segment;
-use EdineiValdameri\Pagamentos\ValueObject\Trailer;
-use EdineiValdameri\Pagamentos\ValueObject\TrailerBatch;
+use EdineiValdameri\Payments\Enum\Bank;
+use EdineiValdameri\Payments\Enum\Finality;
+use EdineiValdameri\Payments\Enum\Status;
+use EdineiValdameri\Payments\Helper\CalculationDV;
+use EdineiValdameri\Payments\Helper\Useful;
+use EdineiValdameri\Payments\Interface\Payer;
+use EdineiValdameri\Payments\Interface\Payment;
+use EdineiValdameri\Payments\Shipping\Cnab240\AbstractShipping;
+use EdineiValdameri\Payments\ValueObject\Field;
+use EdineiValdameri\Payments\ValueObject\Header;
+use EdineiValdameri\Payments\ValueObject\HeaderBatch;
+use EdineiValdameri\Payments\ValueObject\Segment;
+use EdineiValdameri\Payments\ValueObject\Trailer;
+use EdineiValdameri\Payments\ValueObject\TrailerBatch;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -246,7 +246,7 @@ class Bradesco extends AbstractShipping
             $this->clientCode = Useful::formatCnab('9', $this->wallet, 4) .
                 Useful::formatCnab('9', $this->payer->getAccount()->getAgency(), 5) .
                 Useful::formatCnab('9', $this->payer->getAccount()->getAccount(), 7) .
-                Useful::formatCnab('9', $this->payer->getAccount()->getAccountDigit() ?: (string) CalculationDV::bradescoAccount($this->payer->getAccount()->getAccount()), 1);
+                Useful::formatCnab('9', $this->payer->getAccount()->getAccountDigit(), 1);
         }
 
         return $this->clientCode;

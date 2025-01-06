@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Helper;
+namespace EdineiValdameri\Payments\Helper;
 
 final class CalculationDV
 {

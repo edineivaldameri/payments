@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\ValueObject;
+namespace EdineiValdameri\Payments\ValueObject;
 
 class TrailerBatch extends AbsctractPart
 {

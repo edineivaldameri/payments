@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Interface;
+namespace EdineiValdameri\Payments\Interface;
 
 use DateTime;
-use EdineiValdameri\Pagamentos\Enum\Finality;
-use EdineiValdameri\Pagamentos\Enum\Status;
+use EdineiValdameri\Payments\Enum\Finality;
+use EdineiValdameri\Payments\Enum\Status;
 
 interface Payment
 {

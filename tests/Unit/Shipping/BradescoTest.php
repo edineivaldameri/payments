@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Tests\Unit\Shipping;
+namespace EdineiValdameri\Payments\Tests\Unit\Shipping;
 
 use DateTime;
-use EdineiValdameri\Pagamentos\Enum\Bank;
-use EdineiValdameri\Pagamentos\Enum\Finality;
-use EdineiValdameri\Pagamentos\Enum\Status;
-use EdineiValdameri\Pagamentos\Interface\Address;
-use EdineiValdameri\Pagamentos\Interface\BankAccount;
-use EdineiValdameri\Pagamentos\Interface\Payer;
-use EdineiValdameri\Pagamentos\Interface\Payment;
-use EdineiValdameri\Pagamentos\Interface\Receiver;
-use EdineiValdameri\Pagamentos\Shipping\Cnab240\Bank\Bradesco;
-use EdineiValdameri\Pagamentos\Tests\TestCase;
+use EdineiValdameri\Payments\Enum\Bank;
+use EdineiValdameri\Payments\Enum\Finality;
+use EdineiValdameri\Payments\Enum\Status;
+use EdineiValdameri\Payments\Interface\Address;
+use EdineiValdameri\Payments\Interface\BankAccount;
+use EdineiValdameri\Payments\Interface\Payer;
+use EdineiValdameri\Payments\Interface\Payment;
+use EdineiValdameri\Payments\Interface\Receiver;
+use EdineiValdameri\Payments\Shipping\Cnab240\Bank\Bradesco;
+use EdineiValdameri\Payments\Tests\TestCase;
 use Exception;
 use ReflectionMethod;
 use ReflectionProperty;

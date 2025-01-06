@@ -43,14 +43,12 @@
   },
   "autoload": {
     "psr-4": {
-      "EdineiValdameri\\Pagamentos\\": "src",
-      "EdineiValdameri\\Pagamentos\\Database\\Factories\\": "database/factories",
-      "EdineiValdameri\\Pagamentos\\Database\\Seeders\\": "database/seeders"
+      "EdineiValdameri\\Payments\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "EdineiValdameri\\Pagamentos\\Tests\\": "tests/"
+      "EdineiValdameri\\Payments\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -91,7 +89,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "PaymentsServiceProvider"
+        "EdineiValdameri\\Payments\\Providers\\PaymentsServiceProvider"
       ]
     }
   },

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Tests\Unit;
+namespace EdineiValdameri\Payments\Tests\Unit;
 
-use EdineiValdameri\Pagamentos\Helper\CalculationDV;
-use EdineiValdameri\Pagamentos\Tests\TestCase;
+use EdineiValdameri\Payments\Helper\CalculationDV;
+use EdineiValdameri\Payments\Tests\TestCase;
 
 class CalculationDVTest extends TestCase
 {

@@ -2,6 +2,10 @@
 .idea
 .phpunit.cache
 build
+.gitattributes
+.phpunit.result.cache
+.deptrac.cache
+.*
 composer.lock
 coverage
 docs

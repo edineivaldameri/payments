@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EdineiValdameri\Pagamentos\Enum;
+namespace EdineiValdameri\Payments\Enum;
 
 enum Status: string
 {
