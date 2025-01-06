@@ -20,7 +20,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: none
+          coverage: xdebug
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
@@ -43,10 +43,10 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: xdebug
-          coverage: none
+          coverage: xdebug
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v3
 
       - name: Run Infection (Mutation Testing)
-        run: XDEBUG_MODE=coverage ./vendor/bin/infection --logger-github=true
+        run: ./vendor/bin/infection --logger-github=true
