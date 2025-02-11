@@ -130,6 +130,15 @@ class BradescoTest extends TestCase
         $bank->setWallet('1');
     }
 
+    public function testSetClientCode()
+    {
+        $clientCode = '12345678901234567';
+        $bradesco = new Bradesco($this->payer);
+        $bradesco->setClientCode($clientCode);
+        $reflectionMethod = new ReflectionMethod($bradesco, 'getClientCode');
+        $this->assertEquals($clientCode, $reflectionMethod->invoke($bradesco));
+    }
+
     public function testGetClientCode()
     {
         $reflectionMethod = new ReflectionMethod($this->bank, 'getClientCode');
