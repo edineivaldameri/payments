@@ -35,25 +35,21 @@ class BradescoTest extends TestCase
 
     private Payment $payment2;
 
-    private string $header = '23700000         211111111000111000000912345123456791234550000012345679 LOREM IPSUM DOLOR SIT AMET CONBRADESCO                                10101202512595900012308001600                                                                     ';
+    private string $header = '23700000         21111111100011100091234512345679   1234550000012345679 LOREM IPSUM DOLOR SIT AMET CONBRADESCO                                10101202512595900012308901600                                                                     ';
 
-    private string $headerBatch = '23700011C3001040 211111111000111   000912345123456791234550000012345679 LOREM IPSUM DOLOR SIT AMET CON                                        LOREM IPSUM                   00123APTO 123       LOREM IPSUM         12345678SP                  ';
+    private string $headerBatch = '23700011C3001045 21111111100011100091234512345679   1234550000012345679 LOREM IPSUM DOLOR SIT AMET CON                                        LOREM IPSUM                   00123APTO 123       LOREM IPSUM         12345678SP01                ';
 
-    private string $segmentA = '2370001300001A0000182371234550000012345679 LOREM IPSUM DOLOR SIT AMET CON0000000000000000000101012025BRL000000123456000000000000123456                    00000000000000000000000                                        06 0004     0          ';
+    private string $segmentA = '2370001300001A0000002371234550000012345679 LOREM IPSUM DOLOR SIT AMET CON0000000000000000000101012025BRL000000123456000000000000123456                    00000000000000000000000                                        06 0004     0          ';
 
-    private string $segmentB = '2370001300001B   211111111000111LOREM IPSUM                   00123APTO 123       LOREM IPSUM    LOREM IPSUM         12345678SP01012025000000000123456000000000123456000000000123456000000000123456000000000123456123456789                     ';
+    private string $segmentB = '2370001300002B   211111111000111LOREM IPSUM                   00123APTO 123       LOREM IPSUM    LOREM IPSUM         12345678SP01012025000000000123456000000000123456000000000123456000000000123456000000000123456123456789      0              ';
 
-    private string $segmentC = '2370001300001C                                                                              1234550000012345679                                                                                                                                 ';
+    private string $segmentA2 = '2370001300003A0000002371234550000012345679 LOREM IPSUM DOLOR SIT AMET CON0000000000000000000101012025BRL000000654321000000000000654321                    00000000000000000000000                                        06 0004     0          ';
 
-    private string $segmentA2 = '2370001300002A0000182371234550000012345679 LOREM IPSUM DOLOR SIT AMET CON0000000000000000000101012025BRL000000654321000000000000654321                    00000000000000000000000                                        06 0004     0          ';
+    private string $segmentB2 = '2370001300004B   211111111000111LOREM IPSUM                   00123APTO 123       LOREM IPSUM    LOREM IPSUM         12345678SP01012025000000000654321000000000654321000000000654321000000000654321000000000654321123456789      0              ';
 
-    private string $segmentB2 = '2370001300002B   211111111000111LOREM IPSUM                   00123APTO 123       LOREM IPSUM    LOREM IPSUM         12345678SP01012025000000000654321000000000654321000000000654321000000000654321000000000654321123456789                     ';
+    private string $trailerBatch = '23700015         000006000000000000777777000000000000000000000000                                                                                                                                                                               ';
 
-    private string $segmentC2 = '2370001300002C                                                                              1234550000012345679                                                                                                                                 ';
-
-    private string $trailerBatch = '23700015         000004000000000000777777000000000000000000000000                                                                                                                                                                               ';
-
-    private string $trailer = '23799999         000001000006000000                                                                                                                                                                                                             ';
+    private string $trailer = '23799999         000001000008000000                                                                                                                                                                                                             ';
 
     private string $endLine;
 
@@ -134,6 +130,15 @@ class BradescoTest extends TestCase
         $bank->setWallet('1');
     }
 
+    public function testSetClientCode()
+    {
+        $clientCode = '12345678901234567';
+        $bradesco = new Bradesco($this->payer);
+        $bradesco->setClientCode($clientCode);
+        $reflectionMethod = new ReflectionMethod($bradesco, 'getClientCode');
+        $this->assertEquals($clientCode, $reflectionMethod->invoke($bradesco));
+    }
+
     public function testGetClientCode()
     {
         $reflectionMethod = new ReflectionMethod($this->bank, 'getClientCode');
@@ -169,19 +174,11 @@ class BradescoTest extends TestCase
 
     public function testSegmentB()
     {
+        $uniqueSegmentB = '2370001300001B   211111111000111LOREM IPSUM                   00123APTO 123       LOREM IPSUM    LOREM IPSUM         12345678SP01012025000000000123456000000000123456000000000123456000000000123456000000000123456123456789      0              ';
         $reflectionMethod = new ReflectionMethod($this->bank, 'segmentB');
         $generated = $reflectionMethod->invoke($this->bank, $this->payment, 1);
 
-        $this->assertEquals($this->segmentB, $generated);
-        $this->assertEquals(240, strlen((string) $generated));
-    }
-
-    public function testSegmentC()
-    {
-        $reflectionMethod = new ReflectionMethod($this->bank, 'segmentC');
-        $generated = $reflectionMethod->invoke($this->bank, $this->payment, 1);
-
-        $this->assertEquals($this->segmentC, $generated);
+        $this->assertEquals($uniqueSegmentB, $generated);
         $this->assertEquals(240, strlen((string) $generated));
     }
 
@@ -192,12 +189,10 @@ class BradescoTest extends TestCase
 
         $detail = $this->segmentA .
             $this->endLine .
-            $this->segmentB .
-            $this->endLine .
-            $this->segmentC;
+            $this->segmentB;
 
         $this->assertEquals($detail, $generated);
-        $this->assertEquals(722, strlen((string) $generated));
+        $this->assertEquals(482, strlen((string) $generated));
     }
 
     public function testTrailerBatch()
@@ -212,10 +207,11 @@ class BradescoTest extends TestCase
 
     public function testTrailer()
     {
+        $exclusiveTrailer = '23799999         000001000004000000                                                                                                                                                                                                             ';
         $reflectionMethod = new ReflectionMethod($this->bank, 'trailer');
         $generated = $reflectionMethod->invoke($this->bank);
 
-        $this->assertEquals($this->trailer, $generated);
+        $this->assertEquals($exclusiveTrailer, $generated);
         $this->assertEquals(240, strlen((string) $generated));
     }
 
@@ -231,13 +227,9 @@ class BradescoTest extends TestCase
             $this->endLine .
             $this->segmentB .
             $this->endLine .
-            $this->segmentC .
-            $this->endLine .
             $this->segmentA2 .
             $this->endLine .
             $this->segmentB2 .
-            $this->endLine .
-            $this->segmentC2 .
             $this->endLine .
             $this->trailerBatch .
             $this->endLine .
@@ -245,7 +237,7 @@ class BradescoTest extends TestCase
             $this->endLine;
 
         $this->assertEquals($expected, $generated);
-        $this->assertEquals(2410, strlen((string) $generated));
+        $this->assertEquals(1936, strlen((string) $generated));
     }
 
     public function testGetFinality()

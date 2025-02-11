@@ -13,18 +13,18 @@ abstract class AbstractShipping extends AbstractRemessaAlias
 
     protected float $amount = 0.00;
 
+    protected int $batchSequence = 1;
+
     public function generate(): string
     {
         $shipping = $this->header() . $this->endLine;
 
         $shipping .= $this->headerBatch() . $this->endLine;
 
-        $i = 1;
         foreach ($this->getPayments() as $payment) {
             /** @var Payment $payment */
             $this->amount += $payment->getAmount();
-            $shipping .= $this->detail($payment, $i) . $this->endLine;
-            $i++;
+            $shipping .= $this->detail($payment) . $this->endLine;
         }
 
         $shipping .= $this->trailerBatch() . $this->endLine;
@@ -38,5 +38,5 @@ abstract class AbstractShipping extends AbstractRemessaAlias
 
     abstract protected function trailerBatch(): string;
 
-    abstract protected function detail(Payment $payment, int $sequence): string;
+    abstract protected function detail(Payment $payment): string;
 }
