@@ -26,14 +26,19 @@ class Bradesco extends AbstractShipping
 {
     protected array $wallets = ['09'];
 
-    private string $clientCode;
-
     protected string $endLine = "\r\n";
+
+    private string $clientCode;
 
     public function __construct(Payer $payer)
     {
         parent::__construct($payer);
         $this->bank = Bank::BRADESCO;
+    }
+
+    public function setClientCode(string $clientCode): void
+    {
+        $this->clientCode = $clientCode;
     }
 
     protected function header(): string
@@ -45,7 +50,7 @@ class Bradesco extends AbstractShipping
         $header->addField(new Field(9, 17));
         $header->addField(new Field(18, 18, strlen(Useful::onlyNumbers($this->payer->getDocument())) === 14 ? '2' : '1'));
         $header->addField(new Field(19, 32, Useful::formatCnab('9', Useful::onlyNumbers($this->payer->getDocument()), 14)));
-        $header->addField(new Field(33, 52, Useful::formatCnab('9', Useful::onlyNumbers($this->getClientCode()), 20)));
+        $header->addField(new Field(33, 52, Useful::formatCnab('X', Useful::onlyNumbers($this->getClientCode()), 20)));
         $header->addField(new Field(53, 57, Useful::formatCnab('9', $this->payer->getAccount()->getAgency(), 5)));
         $header->addField(new Field(58, 58, (string) CalculationDV::bradescoAgency($this->payer->getAccount()->getAgency())));
         $header->addField(new Field(59, 70, Useful::formatCnab('9', $this->payer->getAccount()->getAccount(), 12)));
@@ -81,7 +86,7 @@ class Bradesco extends AbstractShipping
         $headerBatch->addField(new Field(17, 17));
         $headerBatch->addField(new Field(18, 18, strlen(Useful::onlyNumbers($this->payer->getDocument())) === 14 ? '2' : '1'));
         $headerBatch->addField(new Field(19, 32, Useful::formatCnab('9', Useful::onlyNumbers($this->payer->getDocument()), 14)));
-        $headerBatch->addField(new Field(33, 52, $this->getClientCode()));
+        $headerBatch->addField(new Field(33, 52, Useful::formatCnab('X', Useful::onlyNumbers($this->getClientCode()), 20)));
         $headerBatch->addField(new Field(53, 57, Useful::formatCnab('9', $this->payer->getAccount()->getAgency(), 5)));
         $headerBatch->addField(new Field(58, 58, (string) CalculationDV::bradescoAgency($this->payer->getAccount()->getAgency())));
         $headerBatch->addField(new Field(59, 70, Useful::formatCnab('9', $this->payer->getAccount()->getAccount(), 12)));
@@ -103,11 +108,12 @@ class Bradesco extends AbstractShipping
         return $headerBatch->generate();
     }
 
-    protected function detail(Payment $payment, int $sequence): string
+    protected function detail(Payment $payment): string
     {
-        $detail = $this->segmentA($payment, $sequence) . $this->endLine;
-        $detail .= $this->segmentB($payment, $sequence) . $this->endLine;
-        $detail .= $this->segmentC($payment, $sequence);
+        $detail = $this->segmentA($payment, $this->batchSequence) . $this->endLine;
+        $this->batchSequence++;
+        $detail .= $this->segmentB($payment, $this->batchSequence);
+        $this->batchSequence++;
 
         return $detail;
     }
@@ -119,7 +125,7 @@ class Bradesco extends AbstractShipping
         $trailerBatch->addField(new Field(4, 7, '0001'));
         $trailerBatch->addField(new Field(8, 8, '5'));
         $trailerBatch->addField(new Field(9, 17));
-        $trailerBatch->addField(new Field(18, 23, Useful::formatCnab('9', (string) ($this->payments->count() + 2), 6)));
+        $trailerBatch->addField(new Field(18, 23, Useful::formatCnab('9', (string) ($this->batchSequence + 1), 6)));
         $trailerBatch->addField(new Field(24, 41, Useful::formatCnab('9', (string) $this->amount, 18, 2)));
         $trailerBatch->addField(new Field(42, 59, '000000000000000000'));
         $trailerBatch->addField(new Field(60, 65, '000000'));
@@ -137,7 +143,7 @@ class Bradesco extends AbstractShipping
         $trailer->addField(new Field(8, 8, '9'));
         $trailer->addField(new Field(9, 17));
         $trailer->addField(new Field(18, 23, Useful::formatCnab('9', '1', 6)));
-        $trailer->addField(new Field(24, 29, Useful::formatCnab('9', (string) ($this->payments->count() + 4), 6)));
+        $trailer->addField(new Field(24, 29, Useful::formatCnab('9', (string) ($this->batchSequence + 3), 6)));
         $trailer->addField(new Field(30, 35, '000000'));
         $trailer->addField(new Field(36, 240));
 
@@ -154,7 +160,7 @@ class Bradesco extends AbstractShipping
         $segment->addField(new Field(14, 14, 'A'));
         $segment->addField(new Field(15, 15, '0'));
         $segment->addField(new Field(16, 17, $this->getStatus($payment->getStatus())));
-        $segment->addField(new Field(18, 20, '018'));
+        $segment->addField(new Field(18, 20, '000'));
         $segment->addField(new Field(21, 23, Useful::formatCnab('9', $payment->getReceiver()->getAccount()->getBank()->value, 3)));
         $segment->addField(new Field(24, 28, Useful::formatCnab('9', $payment->getReceiver()->getAccount()->getAgency(), 5)));
         $agencyDigit = '';
@@ -178,7 +184,7 @@ class Bradesco extends AbstractShipping
         $segment->addField(new Field(218, 219, '06'));
         $segment->addField(new Field(220, 224, $this->getFinality($payment->getFinality())));
         $segment->addField(new Field(225, 226));
-        $segment->addField(new Field(227, 229, 'CC'));
+        $segment->addField(new Field(227, 229));
         $segment->addField(new Field(230, 230, '0'));
         $segment->addField(new Field(231, 240));
 
@@ -211,39 +217,9 @@ class Bradesco extends AbstractShipping
         $segment->addField(new Field(181, 195, Useful::formatCnab('9', (string) $payment->getInterestAmount(), 15, 2)));
         $segment->addField(new Field(196, 210, Useful::formatCnab('9', (string) $payment->getFineAmount(), 15, 2)));
         $segment->addField(new Field(211, 225, Useful::formatCnab('X', (string) $payment->getReceiver()->getId(), 15)));
-        $segment->addField(new Field(226, 226));
+        $segment->addField(new Field(226, 226, '0'));
         $segment->addField(new Field(227, 232));
         $segment->addField(new Field(233, 240));
-
-        return $segment->generate();
-    }
-
-    private function segmentC(Payment $payment, int $sequence): string
-    {
-        $segment = new Segment();
-        $segment->addField(new Field(1, 3, Useful::formatCnab('9', $this->bank->value, 3)));
-        $segment->addField(new Field(4, 7, '0001'));
-        $segment->addField(new Field(8, 8, '3'));
-        $segment->addField(new Field(9, 13, Useful::formatCnab('9', (string) $sequence, 5)));
-        $segment->addField(new Field(14, 14, 'C'));
-        $segment->addField(new Field(15, 17));
-        $segment->addField(new Field(18, 32));
-        $segment->addField(new Field(33, 47));
-        $segment->addField(new Field(48, 62));
-        $segment->addField(new Field(63, 77));
-        $segment->addField(new Field(78, 92));
-        $segment->addField(new Field(93, 97, Useful::formatCnab('9', $payment->getReceiver()->getAccount()->getAgency(), 5)));
-        $agencyDigit = '';
-        if ($payment->getReceiver()->getAccount()->getAgencyDigit()) {
-            $agencyDigit = $payment->getReceiver()->getAccount()->getAgencyDigit();
-        }
-        $segment->addField(new Field(98, 98, Useful::formatCnab('9', $agencyDigit, 1)));
-        $segment->addField(new Field(99, 110, Useful::formatCnab('9', $payment->getReceiver()->getAccount()->getAccount(), 12)));
-        $segment->addField(new Field(111, 111, Useful::formatCnab('9', $payment->getReceiver()->getAccount()->getAccountDigit(), 1)));
-        $segment->addField(new Field(112, 112));
-        $segment->addField(new Field(113, 127));
-        $segment->addField(new Field(128, 147));
-        $segment->addField(new Field(148, 240));
 
         return $segment->generate();
     }
@@ -284,10 +260,5 @@ class Bradesco extends AbstractShipping
             Finality::PAGAMENTO_MENSALIDADE_ESCOLAR => '0009',
             Finality::CREDITO_CONTA => '0010',
         };
-    }
-
-    public function setClientCode(string $clientCode): void
-    {
-        $this->clientCode = $clientCode;
     }
 }
