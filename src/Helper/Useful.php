@@ -110,7 +110,6 @@ final class Useful
             if (empty(end($file_content))) {
                 array_pop($file_content);
             }
-            reset($file_content);
             $aFile = $file_content;
         }
 

@@ -32,7 +32,7 @@ abstract class AbstractReceipt implements Process
     ) {
         $return = Useful::fileToArray($file);
 
-        if (is_array($return)) {
+        if (is_array($return) && count($return) > 0) {
             $this->file = $return;
 
             return;
@@ -53,7 +53,7 @@ abstract class AbstractReceipt implements Process
         return $this->payments;
     }
 
-    public function addPayment(Payment $payment): void
+    protected function addPayment(Payment $payment): void
     {
         $this->payments->push($payment);
     }

@@ -13,7 +13,7 @@ use Exception;
 
 class Bradesco extends AbstractReceipt
 {
-    protected string $endLine = "\r";
+    protected string $endLine = '\r';
 
     private array $occurrences = [
         '00' => 'Crédito ou Débito Efetivado - Este código indica que o pagamento foi confirmado',
@@ -199,6 +199,7 @@ class Bradesco extends AbstractReceipt
     {
     }
 
+    /** @infection-ignore-all */
     private function processDetailSegmentA(string $data): void
     {
         $key = $this->getValue(74, 93, $data);

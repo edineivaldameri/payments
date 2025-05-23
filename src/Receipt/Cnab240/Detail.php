@@ -9,6 +9,7 @@ use EdineiValdameri\Payments\Enum\Finality;
 use EdineiValdameri\Payments\Enum\Status;
 use EdineiValdameri\Payments\Interface\Payment;
 use EdineiValdameri\Payments\Interface\Receiver;
+use Exception;
 
 class Detail implements Payment
 {
@@ -47,6 +48,7 @@ class Detail implements Payment
 
     public function getReceiver(): Receiver
     {
+        throw new Exception('Method not implemented.');
     }
 
     public function getDate(): DateTime

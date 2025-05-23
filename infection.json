@@ -5,6 +5,7 @@
             "src/Enum",
             "src/Helper",
             "src/Interface",
+            "src/Receipt",
             "src/Shipping",
             "src/ValueObject"
         ]

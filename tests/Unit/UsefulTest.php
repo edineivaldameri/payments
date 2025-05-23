@@ -146,4 +146,42 @@ class UsefulTest extends TestCase
         $header = new Header();
         $header->generate();
     }
+
+    public function testStringWithMultipleLines()
+    {
+        $input = 'linha1' . PHP_EOL . 'linha2';
+        $expected = ['linha1', 'linha2'];
+
+        $this->assertSame($expected, Useful::fileToArray($input));
+    }
+
+    public function testStringWithTrailingNewLine()
+    {
+        $input = 'linha1' . PHP_EOL . 'linha2' . PHP_EOL;
+        $expected = ['linha1', 'linha2'];
+
+        $this->assertSame($expected, Useful::fileToArray($input));
+    }
+
+    public function testStringWithoutNewLine()
+    {
+        $input = 'linha_unica';
+
+        $this->assertSame([], Useful::fileToArray($input));
+    }
+
+    public function testEmptyString()
+    {
+        $input = '';
+
+        $this->assertSame([], Useful::fileToArray($input));
+    }
+
+    public function testWithInvalidTypes()
+    {
+        $this->assertSame([], Useful::fileToArray(['linha1', 'linha2']));
+        $this->assertSame([], Useful::fileToArray(123));
+        $this->assertSame([], Useful::fileToArray(null));
+        $this->assertSame([], Useful::fileToArray((object) ['linha1']));
+    }
 }
