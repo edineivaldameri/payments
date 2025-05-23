@@ -13,4 +13,8 @@ enum Status: string
     case BAIXA = 'baixa';
 
     case ALTERACAO_DATA = 'alteracao_data';
+
+    case LIQUIDADO = 'liquidado';
+
+    case CANCELADO = 'cancelado';
 }

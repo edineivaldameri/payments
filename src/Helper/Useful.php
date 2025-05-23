@@ -101,4 +101,18 @@ final class Useful
 
         return preg_replace('/[^0-9a-zA-Z !+=*\-,.;:%@_]/', '', strtr($string, $normalizeChars));
     }
+
+    public static function fileToArray(mixed $file): array|false
+    {
+        $aFile = [];
+        if (is_string($file) && str_contains($file, PHP_EOL)) {
+            $file_content = explode(PHP_EOL, $file);
+            if (empty(end($file_content))) {
+                array_pop($file_content);
+            }
+            $aFile = $file_content;
+        }
+
+        return $aFile;
+    }
 }
