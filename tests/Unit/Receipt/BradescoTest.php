@@ -61,13 +61,13 @@ class BradescoTest extends TestCase
         $this->payer->method('getDocument')->willReturn('11111111000111');
         $this->payer->method('getName')->willReturn('LOREM IPSUM DOLOR SIT AMET CONSECTETUR');
 
-        $this->file = $this->header . '\r' . PHP_EOL .
-            $this->headerBatch . '\r' . PHP_EOL .
-            $this->segmentA . '\r' . PHP_EOL .
-            $this->segmentB . '\r' . PHP_EOL .
-            $this->segmentA2 . '\r' . PHP_EOL .
-            $this->segmentB2 . '\r' . PHP_EOL .
-            $this->trailerBatch . '\r' . PHP_EOL .
+        $this->file = $this->header . PHP_EOL .
+            $this->headerBatch . PHP_EOL .
+            $this->segmentA . PHP_EOL .
+            $this->segmentB . PHP_EOL .
+            $this->segmentA2 . PHP_EOL .
+            $this->segmentB2 . PHP_EOL .
+            $this->trailerBatch . PHP_EOL .
             $this->trailer;
     }
 
@@ -147,5 +147,15 @@ class BradescoTest extends TestCase
 
         $this->assertEquals('BD', $bradesco->getPayments()->first()->getOccurrence());
         $this->assertEquals('CF', $bradesco->getPayments()->last()->getOccurrence());
+    }
+
+    public function testReplaceEndline2()
+    {
+        $file = $this->header . "\r\n";
+
+        $bradesco = new Bradesco($this->payer, $file);
+        $bradesco->process();
+
+        $this->assertCount(0, $bradesco->getPayments());
     }
 }
