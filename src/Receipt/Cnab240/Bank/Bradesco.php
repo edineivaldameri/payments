@@ -161,6 +161,7 @@ class Bradesco extends AbstractReceipt
         'BD' => Status::LIQUIDADO,
         '00' => Status::LIQUIDADO,
         'CF' => Status::CANCELADO,
+        'AT' => Status::CANCELADO,
     ];
 
     public function __construct(
@@ -210,7 +211,7 @@ class Bradesco extends AbstractReceipt
         $occurrence = $this->getValue(231, 240, $data);
         $detail->setOccurrence(trim($occurrence->getValue()));
         $detail->setMessage($this->occurrences[$detail->getOccurrence()] ?? 'Ocorrência não encontrada');
-        $detail->setStatus($this->statusByOccurrence[$detail->getOccurrence()]);
+        $detail->setStatus($this->statusByOccurrence[$detail->getOccurrence()] ?? Status::CANCELADO);
 
         $this->addPayment($detail);
     }
