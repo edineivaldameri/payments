@@ -76,14 +76,12 @@ final class Useful
             if ($digito === $resto) {
                 return $resto10;
             }
-
-            return $digito;
         }
 
         return $sum % 11;
     }
 
-    public static function normalizeChars(string $string): array|string|null
+    public static function normalizeChars(string $string): ?string
     {
         $normalizeChars = [
             'Á' => 'A', 'À' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Å' => 'A', 'Ä' => 'A', 'Æ' => 'AE', 'Ç' => 'C',
@@ -102,7 +100,7 @@ final class Useful
         return preg_replace('/[^0-9a-zA-Z !+=*\-,.;:%@_]/', '', strtr($string, $normalizeChars));
     }
 
-    public static function fileToArray(mixed $file): array|false
+    public static function fileToArray(mixed $file): array
     {
         $aFile = [];
         if (is_string($file) && str_contains($file, PHP_EOL)) {

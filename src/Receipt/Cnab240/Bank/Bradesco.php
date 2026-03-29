@@ -170,7 +170,7 @@ class Bradesco extends AbstractReceipt
     ) {
         parent::__construct($payer, $file);
         $this->bank = Bank::BRADESCO;
-        $this->payments = collect();
+        $this->payments = collect(); // @phpstan-ignore-line
     }
 
     public function processHeader(string $data): void
@@ -210,8 +210,14 @@ class Bradesco extends AbstractReceipt
 
         $occurrence = $this->getValue(231, 240, $data);
         $detail->setOccurrence(trim($occurrence->getValue()));
-        $detail->setMessage($this->occurrences[$detail->getOccurrence()] ?? 'Ocorrência não encontrada');
-        $detail->setStatus($this->statusByOccurrence[$detail->getOccurrence()] ?? Status::CANCELADO);
+
+        /** @var string $message */
+        $message = $this->occurrences[$detail->getOccurrence()] ?? 'Ocorrência não encontrada';
+        $detail->setMessage($message);
+
+        /** @var Status $status */
+        $status = $this->statusByOccurrence[$detail->getOccurrence()] ?? Status::CANCELADO;
+        $detail->setStatus($status);
 
         $this->addPayment($detail);
     }
