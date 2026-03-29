@@ -32,7 +32,7 @@ abstract class AbstractReceipt implements Process
     ) {
         $return = Useful::fileToArray($file);
 
-        if (is_array($return) && count($return) > 0) {
+        if (count($return) > 0) {
             $this->file = $return;
 
             return;

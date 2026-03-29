@@ -19,9 +19,6 @@ use EdineiValdameri\Payments\ValueObject\Segment;
 use EdineiValdameri\Payments\ValueObject\Trailer;
 use EdineiValdameri\Payments\ValueObject\TrailerBatch;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class Bradesco extends AbstractShipping
 {
     protected array $wallets = ['09'];

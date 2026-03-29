@@ -84,7 +84,6 @@ class BradescoTest extends TestCase
         $this->bank->setShippingDate(new DateTime('2025-01-01 12:59:59'));
 
         $reflectionProperty = new ReflectionProperty($this->bank, 'endLine');
-        $reflectionProperty->setAccessible(true);
         $this->endLine = $reflectionProperty->getValue($this->bank);
 
         $this->receiver = $this->createMock(Receiver::class);
@@ -277,7 +276,6 @@ class BradescoTest extends TestCase
     {
         $this->bank->generate();
         $method = new ReflectionMethod($this->bank, 'header');
-        $method->setAccessible(true);
 
         $generated = $method->invoke($this->bank);
 
@@ -290,7 +288,6 @@ class BradescoTest extends TestCase
     {
         $this->bank->generate();
         $method = new ReflectionMethod($this->bank, 'headerBatch');
-        $method->setAccessible(true);
 
         $generated = $method->invoke($this->bank);
         $this->assertEquals('12345678', substr((string) $generated, 212, 8));
@@ -301,7 +298,6 @@ class BradescoTest extends TestCase
     {
         $this->bank->generate();
         $method = new ReflectionMethod($this->bank, 'segmentB');
-        $method->setAccessible(true);
 
         $generated = $method->invoke($this->bank, $this->payment, 1);
         $this->assertEquals('12345678', substr((string) $generated, 117, 8));

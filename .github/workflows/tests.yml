@@ -7,11 +7,11 @@ on:
 
 jobs:
   pest:
-    name: Run Pest Tests on PHP 8.2, 8.3, and 8.4
+    name: Run Pest Tests on PHP 8.3, 8.4 and 8.5
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.2, 8.3, 8.4]
+        php-version: [8.3, 8.4, 8.5]
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -29,11 +29,11 @@ jobs:
         run: ./vendor/bin/pest --colors --no-coverage
 
   infection:
-    name: Run Mutation Testing (Infection) on PHP 8.2, 8.3, and 8.4
+    name: Run Mutation Testing (Infection) on PHP 8.3, 8.4 and 8.5
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.2, 8.3, 8.4]
+        php-version: [8.3, 8.4, 8.5]
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4

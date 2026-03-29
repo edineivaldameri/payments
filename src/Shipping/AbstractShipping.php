@@ -36,7 +36,7 @@ abstract class AbstractShipping implements Generate
     public function __construct(
         protected Payer $payer,
     ) {
-        $this->payments = collect();
+        $this->payments = collect(); // @phpstan-ignore-line
     }
 
     public function setWallet(string $wallet): void

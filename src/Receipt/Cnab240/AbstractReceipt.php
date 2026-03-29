@@ -13,6 +13,7 @@ abstract class AbstractReceipt extends AbstractRetornoAlias
 
     public function process(): void
     {
+        /** @var string $line */
         foreach ($this->file as $line) {
             $line = str_replace($this->endLine, '', $line);
             if (strlen($line) !== $this->positions) {

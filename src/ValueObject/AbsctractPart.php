@@ -32,6 +32,6 @@ class AbsctractPart implements Generate
 
         ksort($this->fields);
 
-        return implode('', array_map(fn (Field $field) => $field->getValue(), $this->fields));
+        return implode('', array_map(fn (Field $field) => $field->getValue(), $this->fields)); // @phpstan-ignore-line
     }
 }
