@@ -38,7 +38,7 @@
     "infection/infection": "^0.32",
     "mockery/mockery": "^1.0",
     "phpmd/phpmd": "^2.14",
-    "qossmic/deptrac": "^2.0",
+    "deptrac/deptrac": "^4.0",
     "rector/rector": "^2.0"
   },
   "autoload": {
