@@ -7,11 +7,11 @@ on:
 
 jobs:
   lint:
-    name: Run Lint Checks on PHP 8.2, 8.3, and 8.4
+    name: Run Lint Checks on PHP 8.3, 8.4 and 8.5
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.2, 8.3, 8.4]
+        php-version: [8.3, 8.4, 8.5]
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.2, 8.3, 8.4]
+        php-version: [8.3, 8.4, 8.5]
     name: Run PHP Mess Detector (PHPMD)
     steps:
       - name: Checkout code
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.2, 8.3, 8.4]
+        php-version: [8.3, 8.4, 8.5]
     name: Run PHP Dependencies Check
     steps:
       - name: Checkout code
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.2, 8.3, 8.4]
+        php-version: [8.3, 8.4, 8.5]
     name: Run Rector for PHP Updates
     steps:
       - name: Checkout code
